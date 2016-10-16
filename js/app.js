@@ -1,6 +1,6 @@
 var Y_STEP = 83;
 var X_STEP = 101;
-var maxEnemySpeed = 1.5;
+var maxEnemySpeed = 80;
 var scoreboard = document.getElementById('scoreboard');
 var level = document.getElementById('level');
 var popup = document.getElementById('popup');
@@ -20,7 +20,7 @@ Entity.prototype.render = function() {
 var Enemy = function(settings) {
     Entity.apply(this, arguments);
 
-    this.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
+    this.multiply = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
 };
 
 Enemy.prototype = Object.create(Entity.prototype);
@@ -44,10 +44,10 @@ Enemy.prototype.update = function(dt) {
         if(item.x > 505) {
             item.x = -101;
             item.y = enemiesLines[ Math.round( getRandomArbitrary(0, 3) ) ];
-            item.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
+            item.multiply = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
         }
 
-        item.x += item.multiply;
+        item.x += (item.multiply * dt);
     });
 };
 
@@ -133,7 +133,7 @@ function changeLevel(value) {
         scoreboard.innerHTML = 0;
         // change level to 1
         level.innerHTML = 1;
-        maxEnemySpeed = 1.5;
+        maxEnemySpeed = 80;
         return;
     }
 
@@ -143,41 +143,39 @@ function changeLevel(value) {
     switch( Math.floor(value / 100) ) {
         case 1:
             level.innerHTML = 2;
-            maxEnemySpeed = 2;
+            maxEnemySpeed = 85;
             break;
         case 2:
             level.innerHTML = 3;
-            maxEnemySpeed = 2.3;
+            maxEnemySpeed = 90;
             break;
         case 3:
             level.innerHTML = 4;
-            maxEnemySpeed = 2.6;
-            allEnemies.length = 3;
+            maxEnemySpeed = 95;
             break;
         case 4:
             level.innerHTML = 5;
-            maxEnemySpeed = 2.9;
+            maxEnemySpeed = 100;
             break;
         case 5:
             level.innerHTML = 6;
-            maxEnemySpeed = 3.3;
+            maxEnemySpeed = 105;
             break;
         case 6:
             level.innerHTML = 7;
-            maxEnemySpeed = 3.5;
-            allEnemies.length = 4;
+            maxEnemySpeed = 110;
             break;
         case 7:
             level.innerHTML = 8;
-            maxEnemySpeed = 3.8;
+            maxEnemySpeed = 115;
             break;
         case 8:
             level.innerHTML = 9;
-            maxEnemySpeed = 4.1;
+            maxEnemySpeed = 120;
             break;
         case 9:
             level.innerHTML = 10;
-            maxEnemySpeed = 4.4;
+            maxEnemySpeed = 125;
             break;
     }
 
