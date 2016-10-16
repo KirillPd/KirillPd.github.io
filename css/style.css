@@ -1,7 +1,77 @@
-body {
-    text-align: center;
+@font-face {
+    font-family: "Douchepac";
+    src: url("../fonts/douchepac-regular-webfont.eot");
+    src: url("../fonts/douchepac-regular-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/douchepac-regular-webfont.woff") format("woff"),
+         url("../fonts/douchepac-regular-webfont.ttf") format("truetype"),
+         url("../fonts/douchepac-regular-webfont.svg") format("svg");
+    font-style: normal;
+    font-weight: 400;
 }
 
-#scoreboard {
-	font-size: 2.4rem;
+@font-face {
+    font-family: "Douchepac";
+    src: url("../fonts/douchepac-bold-webfont.eot");
+    src: url("../fonts/douchepac-bold-webfont.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/douchepac-bold-webfont.woff") format("woff"),
+         url("../fonts/douchepac-bold-webfont.ttf") format("truetype"),
+         url("../fonts/douchepac-bold-webfont.svg") format("svg");
+    font-style: normal;
+    font-weight: 700;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    font-family: 'Douchepac', Arial, sans-serif;
+    font-weight: 400;
+    text-align: center;
+    background: linear-gradient(to bottom, #6aa7f0 0%, #57adf3 50%, #dbedf9 100%);
+}
+
+h1,
+p {
+    margin: 0 0 10px;
+}
+
+h1 {
+    padding-top: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+p {
+    font-size: 2.4rem;
+}
+
+#popup {
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: opacity 0.3s ease-in-out;
+}
+
+#popup img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#popup.show {
+    opacity: 1;
+    z-index: 2;
 }

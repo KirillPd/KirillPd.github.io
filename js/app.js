@@ -1,6 +1,9 @@
 var Y_STEP = 83;
 var X_STEP = 101;
+var maxEnemySpeed = 1.5;
 var scoreboard = document.getElementById('scoreboard');
+var level = document.getElementById('level');
+var popup = document.getElementById('popup');
 
 var Entity = function(settings) {
     this.x = settings.x;
@@ -17,7 +20,7 @@ Entity.prototype.render = function() {
 var Enemy = function(settings) {
     Entity.apply(this, arguments);
 
-    this.multiply = getRandomArbitrary(0.5, 1);
+    this.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
 };
 
 Enemy.prototype = Object.create(Entity.prototype);
@@ -29,16 +32,19 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     allEnemies.forEach(function(item, i, arr) {
+        var itemX = Math.ceil(item.x);
+
         // Check collisions with player
-        if( (item.y == player.y) && (Math.ceil(item.x) + 71 >= player.x && Math.ceil(item.x) - 50 <= player.x) ) {
-            fillScoreboard(player.score = 0);
-            player.x = 202;
-            player.y = 385;
+        if( (item.y == player.y) && (itemX + 71 >= player.x && itemX - 50 <= player.x) ) {
+            changeLevel(player.score = 0);
+            player.reset();
+            popup.className = 'show';
         }
 
         if(item.x > 505) {
             item.x = -101;
-            this.multiply = getRandomArbitrary(0.2, 1);
+            item.y = enemiesLines[ Math.round( getRandomArbitrary(0, 3) ) ];
+            item.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
         }
 
         item.x += item.multiply;
@@ -65,10 +71,9 @@ var Player = function(settings) {
     this.setY = function(value) {
         // move player on start position
         if(value <= -30) {
-            this.x = 202;
-            this.y = 385;
+            player.reset();
             // increase and show score
-            fillScoreboard(this.score += 10);
+            changeLevel(this.score += 10);
             return;
         }
 
@@ -98,17 +103,16 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-Player.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    this.x = this.x;
-    this.y = this.y;
-};
+Player.prototype.reset = function() {
+    this.x = 202;
+    this.y = 385;
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var numOfEnemies = 3;
+var numOfEnemies = 4;
+var enemiesLines = [53, 136, 219];
 var allEnemies = [];
 var player = new Player({
     x: 202,
@@ -119,18 +123,67 @@ var player = new Player({
 for(var i = 0; i < numOfEnemies; i++) {
     allEnemies.push( new Enemy({
         x: -101,
-        y: i * Y_STEP + 53,
+        y: enemiesLines[ Math.round( getRandomArbitrary(0, 3) ) ],
         sprite: 'images/enemy-bug.png'
     }) );
 }
 
-function fillScoreboard(value) {
-    if(value < 0) {
+function changeLevel(value) {
+    if(value <= 0) {
         scoreboard.innerHTML = 0;
+        // change level to 1
+        level.innerHTML = 1;
+        maxEnemySpeed = 1.5;
         return;
     }
 
     scoreboard.innerHTML = value;
+
+    // change level
+    switch( Math.floor(value / 100) ) {
+        case 1:
+            level.innerHTML = 2;
+            maxEnemySpeed = 2;
+            break;
+        case 2:
+            level.innerHTML = 3;
+            maxEnemySpeed = 2.3;
+            break;
+        case 3:
+            level.innerHTML = 4;
+            maxEnemySpeed = 2.6;
+            allEnemies.length = 3;
+            break;
+        case 4:
+            level.innerHTML = 5;
+            maxEnemySpeed = 2.9;
+            break;
+        case 5:
+            level.innerHTML = 6;
+            maxEnemySpeed = 3.3;
+            break;
+        case 6:
+            level.innerHTML = 7;
+            maxEnemySpeed = 3.5;
+            allEnemies.length = 4;
+            break;
+        case 7:
+            level.innerHTML = 8;
+            maxEnemySpeed = 3.8;
+            break;
+        case 8:
+            level.innerHTML = 9;
+            maxEnemySpeed = 4.1;
+            break;
+        case 9:
+            level.innerHTML = 10;
+            maxEnemySpeed = 4.4;
+            break;
+    }
+
+    allEnemies.forEach(function(item, i, arr) {
+        item.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
+    });
 }
 
 function getRandomArbitrary(min, max) {
@@ -147,5 +200,16 @@ document.addEventListener('keydown', function(e) {
         40: 'down'
     };
 
+    // if popup is open
+    if(popup.classList.contains('show')) {
+        // hide popup
+        popup.className = '';
+        return;
+    }
+
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+popup.addEventListener('click', function(e) {
+    popup.className = '';
 });
