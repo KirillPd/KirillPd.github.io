@@ -20,34 +20,40 @@ Entity.prototype.render = function() {
 var Enemy = function(settings) {
     Entity.apply(this, arguments);
 
-    this.multiply = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
+    this.speed = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
 };
 
 Enemy.prototype = Object.create(Entity.prototype);
 Enemy.prototype.constructor = Enemy;
 
+Enemy.prototype.checkCollisions = function() {
+    var itemX = Math.ceil(this.x);
+
+    if( (this.y == player.y) && (itemX + 71 >= player.x && itemX - 50 <= player.x) ) {
+        changeLevel(player.score = 0);
+        player.reset();
+        popup.className = 'show';
+    }
+};
+
+Enemy.prototype.reinit = function() {
+    if(this.x > 505) {
+        this.x = -101;
+        this.y = enemiesLines[ Math.round( getRandomArbitrary(0, 3) ) ];
+        this.speed = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
+    }
+};
+
 // Update the entity's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
+    // You should speed any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     allEnemies.forEach(function(item, i, arr) {
-        var itemX = Math.ceil(item.x);
+        item.checkCollisions();
+        item.reinit();
 
-        // Check collisions with player
-        if( (item.y == player.y) && (itemX + 71 >= player.x && itemX - 50 <= player.x) ) {
-            changeLevel(player.score = 0);
-            player.reset();
-            popup.className = 'show';
-        }
-
-        if(item.x > 505) {
-            item.x = -101;
-            item.y = enemiesLines[ Math.round( getRandomArbitrary(0, 3) ) ];
-            item.multiply = getRandomArbitrary(maxEnemySpeed - 60, maxEnemySpeed);
-        }
-
-        item.x += (item.multiply * dt);
+        item.x += (item.speed * dt);
     });
 };
 
@@ -180,7 +186,7 @@ function changeLevel(value) {
     }
 
     allEnemies.forEach(function(item, i, arr) {
-        item.multiply = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
+        item.speed = getRandomArbitrary(maxEnemySpeed - 1, maxEnemySpeed);
     });
 }
 
