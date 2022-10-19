@@ -32,7 +32,7 @@ export const useForm = (config: FormConfig) => {
     (inputName) => !data[inputName].isValid
   );
 
-  const register = (inputName: string) => {
+  const register = React.useCallback((inputName: string) => {
     return {
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -47,14 +47,14 @@ export const useForm = (config: FormConfig) => {
         }));
       },
     };
-  };
+  }, [config]);
 
-  const handleSubmit = (callback: (data: FormData) => void) => {
+  const handleSubmit = React.useCallback((callback: (data: FormData) => void) => {
     return (event: React.SyntheticEvent) => {
       event.preventDefault();
       callback(data);
     };
-  };
+  }, [data]);
 
   return {
     register,
