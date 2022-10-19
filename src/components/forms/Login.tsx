@@ -14,17 +14,17 @@ interface Props {
 }
 
 export enum InputName {
-  USERNAME = 'username',
-  PASSWORD = 'password',
+  Username = 'USERNAME',
+  Password = 'PASSWORD',
 }
 
 const FORM_WIDTH = '320px';
 const FORM_CONFIG: FormConfig = {
-  [InputName.USERNAME]: {
+  [InputName.Username]: {
     value: '',
     rule: (value) => value === 'admin',
   },
-  [InputName.PASSWORD]: {
+  [InputName.Password]: {
     value: '',
     rule: (value) => value.length > 0,
   },
@@ -43,7 +43,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
               fullWidth
               label="Username"
               variant="outlined"
-              {...register(InputName.USERNAME)}
+              {...register(InputName.Username)}
             />
           </Box>
           <Box mb={3}>
@@ -52,7 +52,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
               label="Password"
               type="password"
               variant="outlined"
-              {...register(InputName.PASSWORD)}
+              {...register(InputName.Password)}
             />
           </Box>
         </div>

@@ -8,8 +8,9 @@ import { SuccessDialog } from './components/success-dialog/SuccessDialog';
 
 function App() {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const handleSubmit = () => {
+  const handleSubmit = (event: any) => {
     setIsDialogOpen(true);
+    console.log(event);
   };
   const handleDialogClose = () => {
     setIsDialogOpen(false);
