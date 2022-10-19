@@ -1,7 +1,7 @@
 # About
 :man_artist:
 
-Awful and confusing login form that doesn't allow you to submit it. Unless you aren't an admin...
+Awful and confusing [login form](https://kirillpd.github.io/build/) that doesn't allow you to submit it. Unless you aren't an admin...
 
 ## How to submit the form?
 To submit the form user should use `admin` username and a password that contains more than 1 character
