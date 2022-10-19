@@ -10,7 +10,19 @@ To submit the form user should use `admin` username and a password that contains
 - Mobile support
 - Buttons should not overlap the login form content
 - Move buttons using `transform` instead of `top` and `left` coordinates
+- SSR support
 - Make it even more confusing
+
+## FAQ
+**Q:** Why do you use React for that application?
+
+**A:** For fun! Of course, in the real world, we wouldn't use React library for such a small project.
+##
+
+**Q:** Why only admins can log in?
+
+**A:** The author of the library has a dream to become an admin of at least something.
+##
 
 # Development
 
